@@ -17,12 +17,14 @@ export const dataContext = createContext();
 
 const App = () => {
   const [isLogin, setIsLogin] = useState(false);
+    const [newAnnouncement, setNewAnnouncement] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
 
 
   return (
     
 
-    <dataContext.Provider value={{isLogin,setIsLogin}}>
+    <dataContext.Provider value={{isLogin,setIsLogin,newAnnouncement,setNewAnnouncement,isLoading,setIsLoading}}>
       <div className="con">
       {isLogin ? (<Announcement/>) : <Auth/>}
 
