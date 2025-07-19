@@ -1,24 +1,38 @@
 import React,{useState,useEffect, useContext} from "react";
-import dataContext from "../App.jsx"
+import "../style.css"
+import {
+  User,
+  MessageSquare,
+  LogOut,
+  Send,
+  Trash2,
+  Calendar,
+} from "lucide-react";
+
+
+
+import {dataContext} from "../App.jsx"
+import {auth,provider} from "../config/firbase.jsx"
+import { signInWithPopup } from "firebase/auth";
 
 
 
 
 const Auth = () => {
-  const {user,setUser} = useContext(dataContext);
-  
+  const {isLogin,setIsLogin} = useContext(dataContext);
+  const [isLoading,setIsLoading] = useState(false)
+
     
 
   const handleLogin = async () => {
-    try {
-      setIsLoading(true);
-      const result = await mockAuth.signInWithPopup();
-      setUser(result.user);
-      setIsLoading(false);
-    } catch (error) {
-      console.error("Login failed:", error);
-      setIsLoading(false);
+    const Response = await signInWithPopup(auth,provider)
+
+    if(Response){
+      setIsLogin(true)
     }
+
+    // console.log(Response)
+
   };
 
   return (
@@ -62,3 +76,6 @@ const Auth = () => {
     </div>
   );
 };
+
+
+export default Auth;
