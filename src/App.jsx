@@ -37,11 +37,15 @@ const App = () => {
         return () => unsubscribe();
   }, []); // <-- The empty array means this effect runs only once on mount
 
+  if (isLoading) {
+    return <div>Loading...</div>; // Or a more styled loading component
+  }
 
 
 
   return (
-    
+    isLoading ? (<p>Loading...</p>) : 
+
 
     <dataContext.Provider value={{isLogin,setIsLogin,newAnnouncement,setNewAnnouncement,isLoading,setIsLoading}}>
       <div className="con">
@@ -53,6 +57,14 @@ const App = () => {
 
 
     </dataContext.Provider>
+
+
+
+
+    
+    
+
+
   )
 };
 
