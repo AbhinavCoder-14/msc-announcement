@@ -1,7 +1,7 @@
 import React,{createContext} from "react";
 import Header from "../components/Header";
 import AnnouncementForm from "../components/AnnouncementForm";
-import { auth } from '../config/firbase';
+import { auth } from '../config/firebase';
 import { useAuthState } from "react-firebase-hooks/auth"
 
 export const AnnouncementContext = createContext();

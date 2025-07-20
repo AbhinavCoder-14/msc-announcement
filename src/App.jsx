@@ -8,7 +8,7 @@ import {
   Calendar,
 } from "lucide-react";
 import Auth from "./pages/Auth.jsx"
-import {auth} from "./config/firbase.jsx"
+import {auth} from "./config/firebase.jsx"
 
 import Announcement from "./pages/Announcement.jsx";
 

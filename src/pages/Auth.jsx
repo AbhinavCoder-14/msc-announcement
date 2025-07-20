@@ -12,7 +12,7 @@ import {
 
 
 import {dataContext} from "../App.jsx"
-import {auth,provider} from "../config/firbase.jsx"
+import {auth,provider} from "../config/firebase.jsx"
 import { signInWithPopup } from "firebase/auth";
 
 

@@ -2,7 +2,7 @@ import React,{useContext,createContext} from 'react';
 
 // Example import from lucide-react, adjust as needed
 import { MessageSquare, LogOut, UserCheck } from 'lucide-react';
-import { auth } from '../config/firbase';
+import { auth } from '../config/firebase';
 import { useAuthState } from "react-firebase-hooks/auth"
 import { signOut } from 'firebase/auth';
 import { dataContext } from '../App';

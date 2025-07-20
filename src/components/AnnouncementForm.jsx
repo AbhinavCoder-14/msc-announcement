@@ -1,24 +1,44 @@
-import React ,{useContext}from 'react';
-// Make sure to import your icon component. 
+import React, { useContext, useEffect, useState } from "react";
+// Make sure to import your icon component.
 // For example, from a library like 'lucide-react'.
-import { Send } from 'lucide-react'; 
-import { auth } from '../config/firbase';
-import { useAuthState } from "react-firebase-hooks/auth"
-import { signOut } from 'firebase/auth';
-import { dataContext } from '../App';
-import { AnnouncementContext } from '../pages/Announcement';
-import "../style.css"
+import { Send } from "lucide-react";
+import { auth } from "../config/firebase";
+import { useAuthState } from "react-firebase-hooks/auth";
+import { signOut } from "firebase/auth";
+import { dataContext } from "../App";
+import Announcement, { AnnouncementContext } from "../pages/Announcement";
+import "../style.css";
 
+import { db } from "../config/firebase";
+import { addDoc, collection } from "firebase/firestore";
 
 // Pass all the required state and functions as props
 const AnnouncementForm = () => {
-    const {user} = useContext(AnnouncementContext)
+  const { user } = useContext(AnnouncementContext);
   // If there's no user, don't render the form
-    const {newAnnouncement,setNewAnnouncement,isLoading,setIsLoading} = useContext(dataContext)
+  const { newAnnouncement, setNewAnnouncement, isLoading, setIsLoading } =
+    useContext(dataContext);
 
-    const handleSubmitAnnouncement = ()=>{
-
+  const postRef = collection(db, "Announcements");
+  const handleSubmitAnnouncement = async () => {
+    console.log();
+    try{
+    await addDoc(postRef, {
+      announcement: newAnnouncement,
+      author: user?.displayName,
+      authorId: user?.uid,
+      timestamp: new Date().toISOString(),
+      photoURL: user?.photoURL,
+    });
+    console.log({status:"success"})
     }
+    catch(error) {
+        console.log("firebase error")
+    }
+
+
+
+  };
 
   return (
     <div className="max-w-4xl mx-auto p-4 space-y-6">
@@ -28,7 +48,7 @@ const AnnouncementForm = () => {
           <Send className="w-5 h-5 text-blue-500" />
           <span>Share an Announcement</span>
         </h3>
-        
+
         <div className="space-y-4">
           <div className="relative">
             <textarea
@@ -43,10 +63,13 @@ const AnnouncementForm = () => {
               {newAnnouncement.length}/280
             </div>
           </div>
-          
+
           <div className="flex justify-between items-center">
             <p className="text-sm text-gray-500">
-              Posting as <span className="font-semibold text-blue-600">{user.displayName}</span>
+              Posting as{" "}
+              <span className="font-semibold text-blue-600">
+                {user?.displayName}
+              </span>
             </p>
             <button
               onClick={handleSubmitAnnouncement}
