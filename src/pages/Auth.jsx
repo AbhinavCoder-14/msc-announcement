@@ -11,9 +11,11 @@ import {
 
 
 
+
+
 import {dataContext} from "../App.jsx"
 import {auth,provider} from "../config/firebase.jsx"
-import { signInWithPopup } from "firebase/auth";
+import { signInWithPopup , setPersistence, browserLocalPersistence} from "firebase/auth";
 
 
 
@@ -25,6 +27,7 @@ const Auth = () => {
     
 
   const handleLogin = async () => {
+    await setPersistence(auth, browserLocalPersistence);
     const Response = await signInWithPopup(auth,provider)
 
     if(Response){
