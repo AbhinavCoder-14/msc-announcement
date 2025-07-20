@@ -9,7 +9,7 @@ import {
 } from "lucide-react";
 import { auth, db } from "../config/firebase";
 import { useAuthState } from "react-firebase-hooks/auth";
-import { collection, getDocs,deleteDoc } from "firebase/firestore";
+import { collection, getDocs,deleteDoc,doc,onSnapshot } from "firebase/firestore";
 import { AnnouncementContext } from "../pages/Announcement";
 
 const AnnouncementList = () => {
@@ -30,19 +30,20 @@ const AnnouncementList = () => {
   ]);
 const postRef = collection(db, "Announcements");
 
-  const getAnnouncement = async () => {
-    const data = await getDocs(postRef); // ✅ FIXED: getDocs for collections
-    console.log(data.docs);
-    setAnnouncement(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
-  };
+useEffect(() => {
+  const unsub = onSnapshot(postRef, (snapshot) => {
+    setAnnouncement(snapshot.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
+  });
 
-  useEffect(() => {
-    getAnnouncement();
-  }, [announcements]);
+  return () => unsub(); // cleanup
+}, []);
 
-  const handleDeleteAnnouncement = async(id) => {
 
-    if (announcements.authorId == user.uid){
+
+
+  const handleDeleteAnnouncement = async(id,authorId) => {
+
+    if (authorId == user.uid){
             const docRef = doc(db, "Announcements", id);
             await deleteDoc(docRef);
             console.log({status:"success"});
@@ -100,7 +101,7 @@ const postRef = collection(db, "Announcements");
                       {announcement.authorId === user.uid && (
                         <button
                           onClick={() =>
-                            handleDeleteAnnouncement(announcement.id)
+                            handleDeleteAnnouncement(announcement.id,announcement.authorId)
                           }
                           className="p-1.5 text-gray-400 hover:text-red-500 hover:bg-red-50 rounded-full transition-colors duration-200"
                           title="Delete announcement"
