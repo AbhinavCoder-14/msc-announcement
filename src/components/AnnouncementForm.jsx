@@ -12,10 +12,10 @@ import "../style.css";
 import { db } from "../config/firebase";
 import { addDoc, collection } from "firebase/firestore";
 
-// Pass all the required state and functions as props
+
 const AnnouncementForm = () => {
   const { user } = useContext(AnnouncementContext);
-  // If there's no user, don't render the form
+
   const { newAnnouncement, setNewAnnouncement, isLoading, setIsLoading } =
     useContext(dataContext);
 
@@ -42,7 +42,7 @@ const AnnouncementForm = () => {
 
   return (
     <div className="max-w-4xl mx-auto p-4 space-y-6">
-      {/* New Announcement Form */}
+
       <div className="bg-white rounded-2xl shadow-lg p-6 border border-gray-100">
         <h3 className="text-lg font-semibold text-gray-800 mb-4 flex items-center space-x-2">
           <Send className="w-5 h-5 text-blue-500" />
